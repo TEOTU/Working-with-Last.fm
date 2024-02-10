@@ -3,6 +3,8 @@ import json
 import requests_cache
 import time
 from IPython.core.display import clear_output
+import pandas as pd
+
 
 USER_AGENT = 'Michael'
 with open('api key.txt', 'r') as file:
@@ -41,7 +43,7 @@ while page <= total_pages:
     # print some output so we can see the status
     print("Requesting page {}/{}".format(page, total_pages))
     # clear the output to make things neater
-    clear_output(wait = True)
+    clear_output(wait=True)
 
     # make the API call
     response = lastfm_get(payload)
@@ -71,3 +73,11 @@ while page <= total_pages:
         page += 1
 
     page += 1
+
+
+if __name__ == '__main__':
+    r0 = responses[1]
+    r0_json = r0.json()
+    r0_artist = r0_json['artists']['artist']
+    r0_df = pd.DataFrame(r0_artist)
+    print(r0_df.head())
