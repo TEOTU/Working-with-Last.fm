@@ -4,16 +4,18 @@ USER_AGENT = 'Michael'
 with open('api key.txt', 'r') as file:
     KEY = file.read()
 
-headers = {
-    'user-agent': USER_AGENT
-}
-payload = {
-    'api_key': KEY,
-    'method': 'chart.gettopartists',
-    'format': 'json'
-}
 
-r = requests.get('https://ws.audioscrobbler.com/2.0/', headers=headers, params=payload)
-print(r.status_code)
+def lastfm_get(payload):
+
+    headers = {'user-agent': USER_AGENT}
+    url = 'https://ws.audioscrobbler.com/2.0/'
+    payload['api_key'] = KEY
+    payload['format'] = 'json'
+
+    response = requests.get(url, headers=headers, params=payload)
+    return response
+
+
+print(lastfm_get({'method': 'chart.gettopartists'}).status_code)
 
 
