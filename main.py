@@ -4,6 +4,7 @@ import requests_cache
 import time
 from IPython.core.display import clear_output
 import pandas as pd
+from tqdm import tqdm
 
 
 USER_AGENT = 'Michael'
@@ -99,4 +100,7 @@ if __name__ == '__main__':
     frames = [pd.DataFrame(r.json()['artists']['artist']) for r in responses]  # breaking to dataframes
     artists = pd.concat(frames)  # turning into a single dataframe
     artists = artists.drop('image', axis=1)  # dropping the images urls
-
+    print(lookup_tags('Billie Eilish'))
+    tqdm.pandas()
+    artists['tags'] = artists['name'].progress_apply(lookup_tags)
+    print(artists.head())
