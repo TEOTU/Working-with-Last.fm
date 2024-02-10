@@ -1,4 +1,5 @@
 import requests
+import json
 
 USER_AGENT = 'Michael'
 with open('api key.txt', 'r') as file:
@@ -16,6 +17,11 @@ def lastfm_get(payload):
     return response
 
 
-print(lastfm_get({'method': 'chart.gettopartists'}).status_code)
+def jprint(obj):
+    # formatting the json object
+    text = json.dumps(obj, sort_keys=True, indent=4)
+    return text
 
 
+response = lastfm_get({'method': 'chart.gettopartists'})
+print(jprint(response.json()['artists']['@attr']))
