@@ -76,8 +76,7 @@ while page <= total_pages:
 
 
 if __name__ == '__main__':
-    r0 = responses[1]
-    r0_json = r0.json()
-    r0_artist = r0_json['artists']['artist']
-    r0_df = pd.DataFrame(r0_artist)
-    print(r0_df.head())
+    frames = [pd.DataFrame(r.json()['artists']['artist']) for r in responses]  # breaking to dataframes
+    artists = pd.concat(frames)  # turning into a single dataframe
+    artists = artists.drop('image', axis=1)  # dropping the images urls
+
