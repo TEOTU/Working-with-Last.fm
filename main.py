@@ -103,4 +103,7 @@ if __name__ == '__main__':
     print(lookup_tags('Billie Eilish'))
     tqdm.pandas()
     artists['tags'] = artists['name'].progress_apply(lookup_tags)
-    print(artists.head())
+    artists[["playcount", "listeners"]] = artists[["playcount", "listeners"]].astype(int)
+    artists = artists.sort_values("listeners", ascending=False)
+    print(artists.head(10))
+    artists.to_csv('artists.csv', index=False)
