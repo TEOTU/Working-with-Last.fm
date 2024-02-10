@@ -1,13 +1,19 @@
 import requests
 
+USER_AGENT = 'Michael'
+with open('api key.txt', 'r') as file:
+    KEY = file.read()
 
 headers = {
-    'user-agent': 'Michael'
+    'user-agent': USER_AGENT
 }
-with open('api key.txt' 'r') as key:
-    key = key
+payload = {
+    'api_key': KEY,
+    'method': 'chart.gettopartists',
+    'format': 'json'
+}
 
-
-r = request.get('https://my-api-url', headers=headers)
+r = requests.get('https://ws.audioscrobbler.com/2.0/', headers=headers, params=payload)
+print(r.status_code)
 
 
