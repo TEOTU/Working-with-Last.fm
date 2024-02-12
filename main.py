@@ -2,7 +2,6 @@ import requests
 import json
 import requests_cache
 import time
-from IPython.core.display import clear_output
 import pandas as pd
 from tqdm import tqdm
 
@@ -43,8 +42,6 @@ while page <= total_pages:
 
     # print some output so we can see the status
     print("Requesting page {}/{}".format(page, total_pages))
-    # clear the output to make things neater
-    clear_output(wait=True)
 
     # make the API call
     response = lastfm_get(payload)
