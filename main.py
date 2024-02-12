@@ -96,14 +96,21 @@ def lookup_tags(artist):
     return tags_str
 
 
+def f():  # in case the internet goes off
+    try:
+        frames = [pd.DataFrame(r.json()['artists']['artist']) for r in responses]  # breaking to dataframes
+        artists = pd.concat(frames)  # turning into a single dataframe
+        artists = artists.drop('image', axis=1)  # dropping the images urls
+        tqdm.pandas()
+        artists['tags'] = artists['name'].progress_apply(lookup_tags)
+        artists[["playcount", "listeners"]] = artists[["playcount", "listeners"]].astype(int)
+        artists = artists.sort_values("listeners", ascending=False)
+        artists.to_csv('artists.csv', index=False)
+    except:
+        f()
+
+
 if __name__ == '__main__':
-    frames = [pd.DataFrame(r.json()['artists']['artist']) for r in responses]  # breaking to dataframes
-    artists = pd.concat(frames)  # turning into a single dataframe
-    artists = artists.drop('image', axis=1)  # dropping the images urls
-    print(lookup_tags('Billie Eilish'))
-    tqdm.pandas()
-    artists['tags'] = artists['name'].progress_apply(lookup_tags)
-    artists[["playcount", "listeners"]] = artists[["playcount", "listeners"]].astype(int)
-    artists = artists.sort_values("listeners", ascending=False)
-    print(artists.head(10))
-    artists.to_csv('artists.csv', index=False)
+    f()
+
+
